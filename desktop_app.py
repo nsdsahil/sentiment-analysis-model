@@ -1,7 +1,8 @@
 # enhanced_streamlit_app.py
 import streamlit as st
-from sentiment_analysis import perform_sentiment_analysis
-
+from nltk.sentiment import SentimentIntensityAnalyzer
+import nltk
+nltk.download('vader_lexicon')
 # Custom CSS for enhanced styling
 custom_css = """
 <style>
@@ -37,6 +38,12 @@ body {
 """
 
 # Function to apply custom CSS
+
+def perform_sentiment_analysis(text):
+    sia = SentimentIntensityAnalyzer()
+    compound_score = sia.polarity_scores(text)['compound']
+    sentiment_label = 1 if compound_score > 0 else 0
+    return sentiment_label
 def apply_custom_css():
     st.markdown(custom_css, unsafe_allow_html=True)
 
